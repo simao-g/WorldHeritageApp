@@ -16,3 +16,5 @@ res = cur.execute(
 data = res.fetchall()
 for row in data:
     print('ID Number:', row['id_no'], 'Name:', row['name_en'])
+
+print("ola")
