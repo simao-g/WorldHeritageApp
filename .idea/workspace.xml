@@ -5,6 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9bef5a31-ed57-448a-9d1b-0ce428397884" name="Changes" comment="Alguns comandos inciais do PowerPoint">
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -29,7 +30,7 @@
     "Python.main.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "main",
-    "last_opened_file_path": "C:/Users/Utilizador/Desktop/Bases de Dados/WorldHeritageApp",
+    "last_opened_file_path": "C:/Users/Utilizador/Desktop/Bases de Dados/WorldHeritageApp/WorldHeritageApp",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -58,6 +59,7 @@
       <workItem from="1733151028471" duration="1444000" />
       <workItem from="1733152586406" duration="3050000" />
       <workItem from="1733159853514" duration="6329000" />
+      <workItem from="1733332970616" duration="825000" />
     </task>
     <task id="LOCAL-00001" summary="Commit inicial">
       <option name="closed" value="true" />

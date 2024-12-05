@@ -12,17 +12,17 @@ def index():
     stats = {}
     stats = db.execute('''
         SELECT * FROM
-          (SELECT COUNT(*) id_no FROM World_Heritage_Site)
+          (SELECT COUNT(*) id_no FROM World_Heritage_Site) #todos
         JOIN
           (SELECT COUNT(*) site_number FROM Location WHERE transboundary=1) #em vários países
         JOIN
           (SELECT COUNT(*) site_number FROM State_Of_Danger WHERE danger=1) #em perigo atualmente
         JOIN 
-          (SELECT COUNT(*) site_number FROM Category WHERE category_short='C')
+          (SELECT COUNT(*) site_number FROM Category WHERE category_short='C') #sites da categoria cultural
         JOIN 
-          (SELECT COUNT(*) site_number FROM Category WHERE category_short='C/N')
+          (SELECT COUNT(*) site_number FROM Category WHERE category_short='C/N') #sites das categorias cultural e natural
         JOIN 
-          (SELECT COUNT(*) site_number FROM Category WHERE category_short='N')
+          (SELECT COUNT(*) site_number FROM Category WHERE category_short='N') #sites da categoria natural
         ''').fetchone()
     logging.info(stats)
     return render_template('index.html', stats=stats)
@@ -53,28 +53,83 @@ def get_site(id):
     if site is None:
         abort(404, 'Site id {} does not exist.'.format(id))
 
-    genres = db.execute(
-        '''
-        SELECT GenreId, Label 
-        FROM MOVIE_GENRE NATURAL JOIN GENRE 
-        WHERE movieId = ? 
-        ORDER BY Label
-        ''', [id]).fetchall()
+    return render_template('site.html', site=site)
 
-    actors = db.execute(
-        '''
-        SELECT ActorId, Name
-        FROM MOVIE_ACTOR NATURAL JOIN ACTOR
-        WHERE MovieId = ?
-        ORDER BY Name
-        ''', [id]).fetchall()
 
-    streams = db.execute(
-        ''' 
-        SELECT StreamId, StreamDate
-        FROM STREAM
-        WHERE MovieId = ?
-        ORDER BY StreamDate Desc
-        ''', [id]).fetchall();
-    return render_template('movie.html',
-        movie=movie, genres=genres, actors=actors, streams=streams)
+#pesquisar por pais
+@APP.route('/sites/search/<country>')
+def search_sites(country):
+    sites = db.execute(
+        '''
+        SELECT id_no,name_en,short_description_en
+        FROM World_Heritage_Site
+        JOIN Location ON World_Heritage_Site.id_no = Location.site_number
+        JOIN place ON Location.site_number = place.site_number
+        WHERE states_name_en LIKE ?
+        GROUP BY id_no, name_en, short_description_en
+        ''', ('%' + country + '%',)).fetchall()
+
+    if not sites:
+        abort(404, 'No sites found for country: {}'.format(country))
+
+    return render_template('sites-list.html', sites=sites)
+
+
+# Transboundary Sites
+@APP.route('/transboundary/')
+def transboundary_sites():
+    try:
+        transboundary_sites = db.execute('''
+            SELECT id_no, name_en, short_description_en, states_name_en
+            FROM World_Heritage_Site
+            JOIN Location ON World_Heritage_Site.id_no = Location.site_number
+            JOIN place ON Location.site_number = place.site_number
+            WHERE transboundary = 1
+            GROUP BY id_no, name_en, short_description_en, states_name_en
+        ''').fetchall()
+
+        if not transboundary_sites:
+            abort(404, 'No transboundary sites found.')
+
+        return render_template('transboundary.html', sites=transboundary_sites)
+    except Exception as e:
+        return str(e), 500
+
+@APP.route('/transboundary/search/<country>')
+def search_transboundary_sites(country):
+    try:
+        transboundary_sites = db.execute('''
+            SELECT id_no, name_en, short_description_en, states_name_en
+            FROM World_Heritage_Site
+            JOIN Location ON World_Heritage_Site.id_no = Location.site_number
+            JOIN place ON Location.site_number = place.site_number
+            WHERE transboundary = 1 AND states_name_en LIKE ?
+            GROUP BY id_no, name_en, short_description_en, states_name_en
+        ''', ('%' + country + '%',)).fetchall()
+
+        if not transboundary_sites:
+            abort(404, 'No transboundary sites found for country: {}'.format(country))
+
+        return render_template('transboundary.html', sites=transboundary_sites)
+    except Exception as e:
+        return str(e), 500
+
+@APP.route('/sites/country/<country>')
+def sites_by_country(country):
+    sites = db.execute('''
+        SELECT World_Heritage_Site.id_no, World_Heritage_Site.name_en, World_Heritage_Site.short_description_en
+        FROM World_Heritage_Site
+        JOIN Location ON World_Heritage_Site.id_no = Location.site_number
+        JOIN Place ON Location.site_number = Place.site_number
+        WHERE Place.states_name_en LIKE ?
+        ORDER BY World_Heritage_Site.id_no
+    ''', ('%' + country + '%',)).fetchall()
+
+    if not sites:
+        abort(404, 'No sites found for country: {}'.format(country))
+
+    return render_template('sites-by-country.html', country=country, sites=sites)
+
+# Run the app
+if __name__ == '__main__':
+    APP.run(debug=True)

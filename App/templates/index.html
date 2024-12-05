@@ -1,10 +1,68 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% block content %}
+<h1>World_Heritage_Site database</h1>
 
-</body>
-</html>
+<h2>About</h2>
+<p>This web application illustrates the use of the World_Heritage_Site
+database. The application is built using 
+<a href="https://docs.python.org/3/library/sqlite3.html">sqlite3</a>,
+<a href="https://flask.palletsprojects.com">Flask</a>, and
+<a href="https://jinja.palletsprojects.com">Jinja</a>.
+</p>
+
+<h2>Some database statistics</h2>
+<table>
+<tr>
+  <th>Items</th>
+  <th>Count</th>
+</tr>
+<tr>
+  <td>World Heritage Site</td>
+  <td>{{ stats.id_no }}</td>
+</tr>
+<tr>
+  <td>Transbondary</td>
+  <td>{{ stats.site_number1 }}</td>
+</tr>
+<tr>
+  <td>In Danger</td>
+  <td>{{ stats.site_number2 }}</td>
+</tr>
+<tr>
+  <td>Cultural sites</td>
+  <td>{{ stats.site_number3}}</td>
+</tr>
+<tr>
+  <td>Mixed sites</td>
+  <td>{{ stats.site_number4}}</td>
+</tr>
+<tr>
+  <td>Natural sites</td>
+  <td>{{ stats.site_number5}}</td>
+</tr>
+</table>
+
+
+<h2>Sample functionality</h2>
+
+<h3>Sites</h3>
+<p>
+   <a href="/sites/">List all</a>
+</p>
+<p>Get sites info:
+<form name="mid" action="javascript:window.open('/sites/'+document.forms['mid'].elements['id'].value,'_self')">
+   Site Id:<input value="1" name="id" type="number" min="1"/><input type="submit" value="get"/>
+</form>
+</p>
+
+<h3>Transboundary</h3>
+<p>
+   <a href="/transboundary/">List all</a>
+</p>
+<p>Search transboundary sites by country:
+<form name="country_search" action="javascript:window.open('/transboundary/search/'+document.forms['country_search'].elements['country'].value,'_self')">
+   Country:<input value='Portugal', name="country" type="text"/><input type="submit" value="search"/>
+</form>
+</p>
+
+{% endblock %}
