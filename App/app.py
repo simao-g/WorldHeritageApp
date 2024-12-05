@@ -44,10 +44,20 @@ def list_sites():
 def get_site(id):
     site = db.execute(
         '''
-        SELECT id_no,name_en,short_description_en, GROUP_CONCAT(Place.states_name_en, ', ') as countries
+        SELECT id_no,name_en,short_description_en, 
+        GROUP_CONCAT(Place.states_name_en, ', ') as countries,
+        region_en, latitude, longitude, area_hectares,
+        date_inscribed, justification_en, danger,category
+
         FROM World_Heritage_Site 
         JOIN Location ON World_Heritage_Site.id_no = Location.site_number
         JOIN place ON Location.site_number = place.site_number
+        JOIN associated_dates ON World_Heritage_Site.id_no = associated_dates.site_number
+        JOIN state_of_danger ON World_Heritage_Site.id_no = state_of_danger.site_number
+        JOIN Category c ON World_Heritage_Site.id_no = c.site_number
+        JOIN Category_Description cd ON c.category_short = cd.category_short
+        JOIN site_criteria ON World_Heritage_Site.id_no = site_criteria.site_number
+        JOIN Criterion_Descriptions cr ON site_criteria.criterion_code = cr.criterion_code
         WHERE id_no = ?
         GROUP BY id_no, name_en, short_description_en
         ''', [id]).fetchone()

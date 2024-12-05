@@ -24,6 +24,46 @@
                 <a href="/country/{{ country.strip() }}">{{ country.strip() }}</a>{% if not loop.last %}, {% endif %}
             {% endfor %}
         </p>
+        <p>
+            <b>Region: </b>{{ site.region_en }}
+        </p>
+        <p>
+            <b>Latitude: </b>{{ site.latitude }}
+        </p>
+        <p>
+            <b>Longitude: </b>{{ site.longitude }}
+        </p>
+        <p>
+            <b>Area (ha): </b>{{ site.area_hectares }}
+        </p>
+        <p>
+            <b>Year of inscription: </b>{{ site.date_inscribed }}
+        </p>
+        <p>
+            <b>Justification: </b>
+            {% if site.justification_en %}
+                    {{ site.justification_en | safe }}
+                {% else %}
+                    No justification available
+                {% endif %}
+        </p>
+        <!-- agora vamos por se está ou não em perigo, se for 1: yes se for 0 pomos No
+        -->
+        <p>
+            <b>Is it in danger? </b>
+            {% if site.danger == 1 %}
+                Yes
+            {% else %}
+                No
+            {% endif %}
+        </p>
+        <p>
+            <b>Category: </b>{{ site.category }}
+        </p>
+        <!-- agora mostrar todos os criterios e a descrição de cada um
+        -->
+
+
     </main>
 </body>
 </html>
