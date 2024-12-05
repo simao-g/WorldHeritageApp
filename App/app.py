@@ -45,7 +45,7 @@ def get_site(id):
     site = db.execute(
         '''
         SELECT id_no,name_en,short_description_en, 
-        GROUP_CONCAT(Place.states_name_en, ', ') as countries,
+        place.states_name_en as countries,
         region_en, latitude, longitude, area_hectares,
         date_inscribed, justification_en, danger,category
 
