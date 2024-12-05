@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block content %}
+    <header>
+        <h1>{{ criteria.name_en }}</h1>
+    </header>
+    <main>
+        <ul>
+            {% for crit in criteria %}
+                <li>
+                    <a>{{ crit.criterion_code }}</a> - {{ crit.cd_description }}
+                </li>
+            {% endfor %}
+        </ul>
+    </main>
+{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title> Criteria for {{ criteria.name_en }}</title>
+        <style> 
+            body {
+                display: flex;
+                flex-direction: column;
+                align-items: left;
+            }
+            header {
+                margin-bottom: 20px; /* Add space below the header */
+                text-align: left; /* Center the text */
+                padding-left: 70px;
+            } 
+            ul {
+                list-style-type: none; /* Remove bullet points */
+                padding: 0; /* Remove default padding */
+            }
+            li {
+                margin-bottom: 10px; /* Add space between items */
+                text-align: left; /* Align text to the left */
+                padding-left: 100px; /* Add space to the left */
+            } 
+        </style>
+    </head> 
+<body>
+<!--   <header>
+        <h1>{{ criteria.name_en }}</h1>
+    </header> -->
+</body>
+</html>

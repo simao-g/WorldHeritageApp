@@ -6,42 +6,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sites in {{ country }}</title>
-    <style> 
+    <style>
         body {
             display: flex;
             flex-direction: column;
             align-items: left;
         }
         header {
-            margin-bottom: 20px; /* Add space below the header */
-            text-align: left; /* Center the text */
+            margin-bottom: 20px;
+            text-align: left;
             padding-left: 70px;
-        } 
+        }
         ul {
-            list-style-type: none; /* Remove bullet points */
-            padding: 0; /* Remove default padding */
+            list-style-type: none;
+            padding: 0;
         }
         li {
-            margin-bottom: 10px; /* Add space between items */
-            text-align: left; /* Align text to the left */
-            padding-left: 100px; /* Add space to the left */
-        } 
+            margin-bottom: 10px;
+            text-align: left;
+            padding-left: 100px;
+        }
     </style>
-</head> 
+</head>
 <body>
     <header>
-        <h1>Sites in {{ country }}</h1>
+        <h1>
+            <img src="{{ url_for('static', filename='flags/' + country.replace(' ', '_') + '.svg') }}" 
+                 alt="{{ country }}" width="30" height="20">
+            Sites in {{ country }}
+        </h1>
     </header>
     <main>
         <ul>
             {% for site in sites %}
                 <li>
-                    <a href="/sites/{{ site.id_no }}">{{ site.id_no }}</a> - {{ site.name_en }}
+                    <a href="/sites/{{ site.id_no }}">{{ site.name_en }}</a> - {{ site.short_description_en }}
                 </li>
             {% endfor %}
         </ul>
     </main>
 </body>
 </html>
-
 {% endblock %}

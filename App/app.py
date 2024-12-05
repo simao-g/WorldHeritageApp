@@ -67,6 +67,27 @@ def get_site(id):
 
     return render_template('site.html', site=site)
 
+@APP.route('/sites/<int:id>/criteria/')
+def get_criteria(id):
+    criteria = db.execute(
+        '''
+        SELECT id_no, name_en,sc.criterion_code,cd.cd_description
+        FROM World_Heritage_Site wh
+        JOIN Category c ON wh.id_no = c.site_number
+        JOIN site_criteria sc ON c.site_number = sc.site_number
+        JOIN criterion_descriptions cd ON sc.criterion_code = cd.criterion_code
+        WHERE id_no = ?
+        GROUP BY wh.id_no, sc.criterion_code
+        ORDER BY
+            CASE 
+                WHEN sc.criterion_code = 'N10' THEN 999
+                ELSE 1                                 
+            END,
+            sc.criterion_code;
+        ''', (id,)).fetchall()
+    
+    return render_template('site-criteria.html', criteria=criteria)
+
 #pesquisar por pais
 @APP.route('/sites/search/<country>')
 def search_sites(country):
@@ -127,7 +148,7 @@ def search_transboundary_sites(country):
 @APP.route('/country/<country>')
 def sites_by_country(country):
     sites = db.execute('''
-        SELECT World_Heritage_Site.id_no, World_Heritage_Site.name_en, World_Heritage_Site.short_description_en
+        SELECT id_no, name_en, short_description_en
         FROM World_Heritage_Site
         JOIN Location ON World_Heritage_Site.id_no = Location.site_number
         JOIN Place ON Location.site_number = Place.site_number
