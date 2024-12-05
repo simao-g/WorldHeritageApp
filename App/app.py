@@ -1,12 +1,10 @@
 import warnings
-
 warnings.filterwarnings('ignore', category=FutureWarning)
 from flask import abort, render_template, Flask
 import logging
 import db
 
 APP = Flask(__name__)
-
 
 # Pagina Inicial
 @APP.route('/')
@@ -34,11 +32,11 @@ def index():
 @APP.route('/sites/')
 def list_sites():
     sites = db.execute(
-        '''
-        SELECT id_no,name_en,short_description_en
-        FROM World_Heritage_Site
-        ORDER BY id_no
-        ''').fetchall()
+      '''
+      SELECT id_no,name_en,short_description_en
+      FROM World_Heritage_Site
+      ORDER BY id_no
+      ''').fetchall()
     return render_template('sites-list.html', sites=sites)
 
 
@@ -59,8 +57,7 @@ def get_site(id):
 
     return render_template('site.html', site=site)
 
-
-# pesquisar por pais
+#pesquisar por pais
 @APP.route('/sites/search/<country>')
 def search_sites(country):
     sites = db.execute(
@@ -77,8 +74,7 @@ def search_sites(country):
         abort(404, 'No sites found for country: {}'.format(country))
 
     return render_template('sites-list.html', sites=sites)
-
-
+           
 # Transboundary Sites
 @APP.route('/transboundary/')
 def transboundary_sites():
@@ -99,7 +95,6 @@ def transboundary_sites():
     except Exception as e:
         return str(e), 500
 
-
 @APP.route('/transboundary/search/<country>')
 def search_transboundary_sites(country):
     try:
@@ -119,8 +114,7 @@ def search_transboundary_sites(country):
     except Exception as e:
         return str(e), 500
 
-
-@APP.route('/sites/country/<country>')
+@APP.route('/country/<country>')
 def sites_by_country(country):
     sites = db.execute('''
         SELECT World_Heritage_Site.id_no, World_Heritage_Site.name_en, World_Heritage_Site.short_description_en
@@ -135,7 +129,6 @@ def sites_by_country(country):
         abort(404, 'No sites found for country: {}'.format(country))
 
     return render_template('sites-by-country.html', country=country, sites=sites)
-
 
 # Run the app
 if __name__ == '__main__':

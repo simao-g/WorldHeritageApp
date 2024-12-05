@@ -21,10 +21,13 @@
         <p>
             <b>Countries: </b>
             {% for country in site.countries.split(',') %}
-                <a href="/sites/country/{{ country.strip() }}">{{ country.strip() }}</a>{% if not loop.last %}, {% endif %}
+                <a href="/country/{{ country.strip() }}">{{ country.strip() }}</a>{% if not loop.last %}, {% endif %}
             {% endfor %}
         </p>
     </main>
 </body>
 </html>
 {% endblock %}
+
+
+

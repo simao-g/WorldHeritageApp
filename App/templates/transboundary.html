@@ -22,7 +22,7 @@
                     <td>{{ site.name_en }}</td>
                     <td>
                         {% for state in site.states_name_en.split(',') %}
-                            <a href="/sites/country/{{ state.strip() }}">{{ state.strip() }}</a>{% if not loop.last %}, {% endif %}
+                            <a href="/country/{{ state.strip() }}">{{ state.strip() }}</a>{% if not loop.last %}, {% endif %}
                         {% endfor %}
                     </td>
                 </tr>

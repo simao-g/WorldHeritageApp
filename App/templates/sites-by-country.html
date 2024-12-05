@@ -4,30 +4,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sites in {{ country }}</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: left;
+        }
+        header {
+            margin-bottom: 20px; /* Add space below the header */
+            text-align: left; /* Center the text */
+            padding-left: 70px;
+        }
+        ul {
+            list-style-type: none; /* Remove bullet points */
+            padding: 0; /* Remove default padding */
+        }
+        li {
+            margin-bottom: 10px; /* Add space between items */
+            text-align: left; /* Align text to the left */
+            padding-left: 100px; /* Add space to the left */
+        }
+    </style>
 </head>
 <body>
     <header>
         <h1>Sites in {{ country }}</h1>
     </header>
     <main>
-        <table border="1">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for site in sites %}
-                    <tr>
-                        <td><a href="/sites/{{ site.id_no }}">{{ site.id_no }}</a></td>
-                        <td>{{ site.name_en }}</td>
-                        <td>{{ site.short_description_en }}</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+        <ul>
+            {% for site in sites %}
+                <li>
+                    <a href="/sites/{{ site.id_no }}">{{ site.id_no }}</a> - {{ site.name_en }}
+                </li>
+            {% endfor %}
+        </ul>
     </main>
 </body>
 </html>
