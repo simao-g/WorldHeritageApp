@@ -47,7 +47,83 @@ table th {
 }
 
 .navbar {
-  margin-bottom: 20px;
+  background-color: #007bff;
+  color: white;
+  padding: 10px;
+  position: relative;
+}
+
+.navbar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar-brand {
+  font-size: 1.5em;
+  color: white;
+  text-decoration: none;
+}
+
+.navbar-toggle {
+  display: none;
+}
+
+.navbar-icon {
+  display: none;
+  cursor: pointer;
+}
+
+.navbar-toggler-icon {
+  width: 30px;
+  height: 3px;
+  background-color: white;
+  display: block;
+  margin: 6px 0;
+}
+
+.navbar-menu {
+  display: flex;
+}
+
+.navbar-nav {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+}
+
+.nav-item {
+  margin-left: 20px;
+}
+
+.nav-link {
+  color: white;
+  text-decoration: none;
+}
+
+.nav-link:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .navbar-icon {
+    display: block;
+  }
+
+  .navbar-menu {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .navbar-toggle:checked + .navbar-icon + .navbar-menu {
+    display: flex;
+  }
+
+  .nav-item {
+    margin: 10px 0;
+  }
 }
 
 .container {
