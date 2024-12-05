@@ -21,6 +21,13 @@
                 <a href="/country/{{ country.strip() }}">{{ country.strip() }}</a>{% if not loop.last %}, {% endif %}
             {% endfor %}
         </p>
+        <p><b>Description: </b>
+            {% if site.short_description_en %}
+                {{ site.short_description_en | safe }}
+            {% else %}
+                No description available
+            {% endif %}
+        </p>
         <p><b>Region: </b>{{ site.region_en }}</p>
         <p><b>Latitude: </b>{{ site.latitude }}</p>
         <p><b>Longitude: </b>{{ site.longitude }}</p>
@@ -44,6 +51,7 @@
         <p><b>Criteria for selection: </b>
             <a href="/sites/{{site.id_no}}/criteria/">Criteria</a> 
         </p> 
+
     </main>
 </body>
 </html>

@@ -48,7 +48,6 @@ def get_site(id):
         place.states_name_en as countries,
         region_en, latitude, longitude, area_hectares,
         date_inscribed, justification_en, danger,category
-
         FROM World_Heritage_Site 
         JOIN Location ON World_Heritage_Site.id_no = Location.site_number
         JOIN place ON Location.site_number = place.site_number
@@ -148,7 +147,7 @@ def search_transboundary_sites(country):
 @APP.route('/country/<country>')
 def sites_by_country(country):
     sites = db.execute('''
-        SELECT id_no, name_en, short_description_en
+        SELECT id_no, name_en
         FROM World_Heritage_Site
         JOIN Location ON World_Heritage_Site.id_no = Location.site_number
         JOIN Place ON Location.site_number = Place.site_number
