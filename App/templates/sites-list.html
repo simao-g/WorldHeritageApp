@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Sites</h1>
+<table>
+  <tr>
+    <th>
+      <b>Id</b>
+    </th>
+    <th>
+      <b>Name</b>
+    </th>
+    <th>
+      <b>Description</b>
+    </th>
+  </tr>
+
+  {% for site in sites %}
+  <tr>
+    <td>
+      <a href="/sites/{{ site.id_no}}">{{ site.id_no }}</a>
+    </td>
+    <td>
+      {{ site.name_en }}
+    </td>
+    <td>
+      {{ site.short_description_en }}
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+{% endblock %}

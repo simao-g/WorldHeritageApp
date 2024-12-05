@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sites in {{ country }}</title>
+</head>
+<body>
+    <header>
+        <h1>Sites in {{ country }}</h1>
+    </header>
+    <main>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for site in sites %}
+                    <tr>
+                        <td><a href="/sites/{{ site.id_no }}">{{ site.id_no }}</a></td>
+                        <td>{{ site.name_en }}</td>
+                        <td>{{ site.short_description_en }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </main>
+</body>
+</html>
