@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+    <header>
+        <h1>Sites Not in Danger</h1>
+    </header>
+    <main>
+        <ul>
+            {% for site in sites %}
+                <li><a href="/sites/{{ site.id_no }}">{{ site.id_no }}</a> - {{ site.name_en }}</li>
+            {% endfor %}
+        </ul>
+    </main>
+{% endblock %}

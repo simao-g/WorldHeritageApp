@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+    <header>
+        <h1>Category: {{ category }}</h1>
+    </header>
+    <main>
+        <ul>
+            {% for site in sites %}
+                <li><a href="/site/{{ site.id_no }}">{{ site.id_no }}</a> - {{ site.name_en }}</li>
+            {% endfor %}
+        </ul>
+    </main>
+{% endblock %}

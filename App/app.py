@@ -70,7 +70,7 @@ def get_site(id):
 def get_criteria(id):
     criteria = db.execute(
         '''
-        SELECT id_no, name_en,sc.criterion_code,cd.cd_description
+        SELECT id_no, name_en,sc.criterion_code,cd.cd_description, wh.justification_en
         FROM World_Heritage_Site wh
         JOIN Category c ON wh.id_no = c.site_number
         JOIN site_criteria sc ON c.site_number = sc.site_number
@@ -104,7 +104,22 @@ def search_sites(country):
         abort(404, 'No sites found for country: {}'.format(country))
 
     return render_template('sites-list.html', sites=sites)
-           
+
+@APP.route('/site/<int:year>')
+def sites_by_year(year):
+    sites = db.execute(
+        '''
+        SELECT id_no, name_en, short_description_en
+        FROM World_Heritage_Site
+        JOIN associated_dates ON World_Heritage_Site.id_no = associated_dates.site_number
+        WHERE date_inscribed = ?
+        ''', [year]).fetchall()
+
+    if not sites:
+        abort(404, 'No sites found for year: {}'.format(year))
+
+    return render_template('sites-by-year.html', year=year, sites=sites)
+      
 # Transboundary Sites
 @APP.route('/transboundary/')
 def transboundary_sites():
@@ -159,6 +174,52 @@ def sites_by_country(country):
         abort(404, 'No sites found for country: {}'.format(country))
 
     return render_template('sites-by-country.html', country=country, sites=sites)
+
+@APP.route('/site/category/<category>')
+def sites_by_category(category):
+    sites = db.execute(
+        '''
+        SELECT id_no, name_en, short_description_en
+        FROM World_Heritage_Site
+        JOIN Category c ON World_Heritage_Site.id_no = c.site_number
+        JOIN Category_Description cd ON c.category_short = cd.category_short
+        WHERE cd.category = ?
+        ''', [category]).fetchall()
+
+    if not sites:
+        abort(404, 'No sites found for category: {}'.format(category))
+
+    return render_template('sites-by-category.html', category=category, sites=sites)
+
+@APP.route('/sites/danger')
+def sites_in_danger():
+    sites = db.execute(
+        '''
+        SELECT id_no, name_en, short_description_en
+        FROM World_Heritage_Site
+        JOIN state_of_danger ON World_Heritage_Site.id_no = state_of_danger.site_number
+        WHERE danger = 1
+        ''').fetchall()
+
+    if not sites:
+        abort(404, 'No sites found that are in danger.')
+
+    return render_template('sites-in-danger.html', sites=sites)
+
+@APP.route('/sites/not-in-danger')
+def sites_not_in_danger():
+    sites = db.execute(
+        '''
+        SELECT id_no, name_en, short_description_en
+        FROM World_Heritage_Site
+        JOIN state_of_danger ON World_Heritage_Site.id_no = state_of_danger.site_number
+        WHERE danger = 0
+        ''').fetchall()
+
+    if not sites:
+        abort(404, 'No sites found that are not in danger.')
+
+    return render_template('sites-not-in-danger.html', sites=sites)
 
 # Run the app
 if __name__ == '__main__':

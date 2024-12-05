@@ -51,7 +51,7 @@ database. The application is built using
 </p>
 <p>Get sites info:
 <form name="mid" action="javascript:window.open('/sites/'+document.forms['mid'].elements['id'].value,'_self')">
-   Site Id:<input value="1" name="id" type="number" min="1"/><input type="submit" value="get"/>
+   Site Id:<input value="208" name="id" type="number" min="1"/><input type="submit" value="search"/>
 </form>
 </p>
 
@@ -62,6 +62,38 @@ database. The application is built using
 <p>Search transboundary sites by country:
 <form name="country_search" action="javascript:window.open('/transboundary/search/'+document.forms['country_search'].elements['country'].value,'_self')">
    Country:<input value='Portugal', name="country" type="text"/><input type="submit" value="search"/>
+</form>
+</p>
+
+<h3>Year of inscription</h3>
+<p>
+<form name="year_search" action="javascript:window.open('/site/'+document.forms['year_search'].elements['year'].value,'_self')">
+   Year:<input value="1990" name="year" type="number" min="1"/><input type="submit" value="search"/>
+</form>
+</p>
+
+<h3>Search sites by category</h3>
+<p>
+<form name="category_search" action="javascript:window.open('/site/category/'+document.forms['category_search'].elements['category'].value,'_self')">
+   Category:
+   <select name="category">
+       <option value="Natural">Natural</option>
+       <option value="Mixed">Mixed</option>
+       <option value="Cultural">Cultural</option>
+   </select>
+   <input type="submit" value="search"/>
+</form>
+</p>
+
+<h3>Search sites by danger status</h3>
+<p>
+<form name="danger_search" action="javascript:window.open('/sites/'+document.forms['danger_search'].elements['danger'].value,'_self')">
+   Danger status:
+   <select name="danger">
+       <option value="danger">In Danger</option>
+       <option value="not-in-danger">Not in Danger</option>
+   </select>
+   <input type="submit" value="search"/>
 </form>
 </p>
 

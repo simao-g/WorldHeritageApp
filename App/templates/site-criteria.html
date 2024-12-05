@@ -11,6 +11,13 @@
                 </li>
             {% endfor %}
         </ul>
+        <p><b>Justification: </b>
+            {% if criteria[0].justification_en %}
+                {{ criteria[0].justification_en | safe }}
+            {% else %}
+                No justification available
+            {% endif %}
+        </p>
     </main>
 {% endblock %}
 <!DOCTYPE html>

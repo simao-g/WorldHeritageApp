@@ -32,14 +32,7 @@
         <p><b>Latitude: </b>{{ site.latitude }}</p>
         <p><b>Longitude: </b>{{ site.longitude }}</p>
         <p><b>Area (ha): </b>{{ site.area_hectares }}</p>
-        <p><b>Year of inscription: </b>{{ site.date_inscribed }}</p>
-        <p><b>Justification: </b>
-            {% if site.justification_en %}
-                {{ site.justification_en | safe }}
-            {% else %}
-                No justification available
-            {% endif %}
-        </p>
+        <p><b>Year of inscription: </b><a href="/site/{{ site.date_inscribed }}">{{ site.date_inscribed }}</a></p>
         <p><b>Is it in danger? </b>
             {% if site.danger == 1 %}
                 Yes
@@ -47,7 +40,7 @@
                 No
             {% endif %}
         </p>
-        <p><b>Category: </b>{{ site.category }}</p>
+        <p><b>Category: </b><a href="/site/category/{{ site.category }}">{{ site.category }}</a></p>
         <p><b>Criteria for selection: </b>
             <a href="/sites/{{site.id_no}}/criteria/">Criteria</a> 
         </p> 
