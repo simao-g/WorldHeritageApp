@@ -6,8 +6,9 @@ import db
 
 APP = Flask(__name__)
 
-# Pagina Inicial
+#Root page
 @APP.route('/')
+#Retrieves various statistics from the database.
 def index():
     stats = {}
     stats = db.execute('''
@@ -28,8 +29,8 @@ def index():
     return render_template('index.html', stats=stats)
 
 
-# World Heritage Sites
 @APP.route('/sites/')
+# Lists all the World Heritage Sites
 def list_sites():
     sites = db.execute(
       '''
@@ -41,6 +42,8 @@ def list_sites():
 
 
 @APP.route('/sites/<int:id>/')
+#Route to retrieve information about a specific World Heritage Site by its ID.
+#The function executes a SQL query to retrieve various details about the World Heritage Site.
 def get_site(id):
     site = db.execute(
         '''
@@ -66,7 +69,10 @@ def get_site(id):
 
     return render_template('site.html', site=site)
 
+
 @APP.route('/sites/<int:id>/criteria/')
+#Retrieve and display the criteria for a specific World Heritage Site.
+#Queries the database to fetch the criteria associated with the specified site.
 def get_criteria(id):
     criteria = db.execute(
         '''
@@ -87,8 +93,10 @@ def get_criteria(id):
     
     return render_template('site-criteria.html', criteria=criteria)
 
-#pesquisar por pais
+
 @APP.route('/sites/search/<country>')
+#Search for World Heritage Sites by country.
+#Queries the database for sites located in the specified country and returns a list of sites.
 def search_sites(country):
     sites = db.execute(
         '''
@@ -105,7 +113,10 @@ def search_sites(country):
 
     return render_template('sites-list.html', sites=sites)
 
+
 @APP.route('/sites/search/<int:year>')
+#Search World Heritage Sites by the year they were inscribed.
+#Queries the database for World Heritage Sites that were inscribed in the selected year.
 def sites_by_year(year):
     sites = db.execute(
         '''
@@ -120,8 +131,10 @@ def sites_by_year(year):
 
     return render_template('sites-by-year.html', year=year, sites=sites)
       
-# Transboundary Sites
+
 @APP.route('/transboundary/')
+#Display transboundary World Heritage Sites.
+#Queries the database to retrieve information about transboundary World Heritage Sites.
 def transboundary_sites():
     try:
         transboundary_sites = db.execute('''
@@ -140,7 +153,10 @@ def transboundary_sites():
     except Exception as e:
         return str(e), 500
 
+
 @APP.route('/transboundary/search/<country>')
+#Search for transboundary World Heritage Sites by country.
+#Queries the database for World Heritage Sites that are transboundary.
 def search_transboundary_sites(country):
     try:
         transboundary_sites = db.execute('''
@@ -159,7 +175,10 @@ def search_transboundary_sites(country):
     except Exception as e:
         return str(e), 500
 
+
 @APP.route('/country/<country>')
+#Display World Heritage Sites by country.
+#Queries the database for World Heritage Sites that are from the chosen country.
 def sites_by_country(country):
     sites = db.execute('''
         SELECT id_no, name_en
@@ -175,7 +194,10 @@ def sites_by_country(country):
 
     return render_template('sites-by-country.html', country=country, sites=sites)
 
+
 @APP.route('/sites/category/<category>')
+#Display World Heritage Sites by category.
+#Queries the database for World Heritage Sites that are categorized by the selected category.
 def sites_by_category(category):
     sites = db.execute(
         '''
@@ -191,7 +213,10 @@ def sites_by_category(category):
 
     return render_template('sites-by-category.html', category=category, sites=sites)
 
+
 @APP.route('/sites/danger')
+#Display World Heritage Sites that are in danger.
+#Queries the database for World Heritage Sites that are marked as in danger.
 def sites_in_danger():
     sites = db.execute(
         '''
@@ -206,7 +231,10 @@ def sites_in_danger():
 
     return render_template('sites-in-danger.html', sites=sites)
 
+
 @APP.route('/sites/not-in-danger')
+#Display World Heritage Sites that are not in danger.
+#Queries the database for World Heritage Sites that are not listed as being in danger.
 def sites_not_in_danger():
     sites = db.execute(
         '''
@@ -221,7 +249,10 @@ def sites_not_in_danger():
 
     return render_template('sites-not-in-danger.html', sites=sites)
 
+
 @APP.route('/queries/<int:n_pergunta>')
+#Handle site queries based on the query number provided.
+#Queries the database for the information that the question requires
 def site_queries(n_pergunta):
     if n_pergunta == 1:
         sql_code = '''
