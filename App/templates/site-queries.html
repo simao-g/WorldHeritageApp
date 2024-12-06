@@ -54,14 +54,14 @@
         <table>
             <thead>
                 <tr>
-                    <th>ID</th>
+                    <th style="text-align: center;">ID</th>
                     <th>Name</th>
                 </tr>
             </thead>
             <tbody>
                 {% for site in result %}
                     <tr>
-                        <td><a href="/site/{{ site.site_number }}">{{ site.site_number }}</a></td>
+                        <td style="text-align: center;"><a href="/site/{{ site.site_number }}">{{ site.site_number }}</a></td>
                         <td>{{ site.name_en }}</td>
                     </tr>
                 {% endfor %}

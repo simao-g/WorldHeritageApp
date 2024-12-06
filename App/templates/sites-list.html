@@ -3,8 +3,8 @@
 <h1>Sites</h1>
 <table>
   <tr>
-    <th>
-      <b>Id</b>
+    <th style="text-align: center;">
+      <b>ID</b>
     </th>
     <th>
       <b>Name</b>
@@ -16,8 +16,8 @@
 
   {% for site in sites %}
   <tr>
-    <td>
-      <a href="/sites/{{ site.id_no}}">{{ site.id_no }}</a>
+    <td style="text-align: center;">
+      <a href="/sites/{{ site.id_no}}">{{ site.id_no }}</a>
     </td>
     <td>
       {{ site.name_en }}
