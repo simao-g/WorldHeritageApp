@@ -23,9 +23,9 @@
       {{ site.name_en }}
     </td>
     <td>
-      {{ site.short_description_en }}
+      {{ site.short_description_en | safe }}
     </td>
-  </tr>
+    </tr>
   {% endfor %}
 </table>
 {% endblock %}

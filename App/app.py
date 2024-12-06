@@ -105,7 +105,7 @@ def search_sites(country):
 
     return render_template('sites-list.html', sites=sites)
 
-@APP.route('/site/<int:year>')
+@APP.route('/sites/<int:year>')
 def sites_by_year(year):
     sites = db.execute(
         '''
@@ -175,7 +175,7 @@ def sites_by_country(country):
 
     return render_template('sites-by-country.html', country=country, sites=sites)
 
-@APP.route('/site/category/<category>')
+@APP.route('/sites/category/<category>')
 def sites_by_category(category):
     sites = db.execute(
         '''
@@ -221,7 +221,7 @@ def sites_not_in_danger():
 
     return render_template('sites-not-in-danger.html', sites=sites)
 
-@APP.route('/site/queries/<int:n_pergunta>')
+@APP.route('/sites/queries/<int:n_pergunta>')
 def site_queries(n_pergunta):
     if n_pergunta == 1:
         sql_code = '''
