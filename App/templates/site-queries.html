@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sites in {{ country }}</title>
+    <title>{{ title }}</title>
     <style>
         body {
             display: flex;
@@ -13,18 +13,26 @@
             align-items: left;
         }
         header {
-            margin-bottom: 20px;
-            text-align: left;
-            padding-left: 70px;
-        }
-        ul {
-            list-style-type: none;
-            padding: 0;
-        }
-        li {
             margin-bottom: 10px;
             text-align: left;
             padding-left: 100px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        a {
+            color: #007BFF;
+            text-decoration: none;
+            cursor: pointer;
         }
         a:hover {
             text-decoration: underline;
@@ -37,19 +45,28 @@
             margin-top: 20px;
         }
     </style>
-   
 </head>
 <body>
     <header>
         <h3>{{ title }}</h3>
     </header>
     <main>
-        <ul>
-            {% for site in result %}
-                <li><a href="/sites/{{ site.site_number }}">{{ site.site_number }}</a> - {{ site.name_en }}</li>
-            {% endfor %}
-        </ul>
-        <!-- quero que tenha uma opção "show the sql code" emvaixo ao clicar sobre-->
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for site in result %}
+                    <tr>
+                        <td><a href="/site/{{ site.site_number }}">{{ site.site_number }}</a></td>
+                        <td>{{ site.name_en }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
         <a onclick="document.getElementById('sql-code').style.display = document.getElementById('sql-code').style.display === 'none' ? 'block' : 'none'" style="text-decoration: underline; cursor: pointer;">Show the SQL code</a>
         <div id="sql-code" class="sql-code">
             <pre>{{ sql_code }}</pre>
