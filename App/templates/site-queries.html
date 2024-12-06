@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sites in {{ country }}</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: left;
+        }
+        header {
+            margin-bottom: 20px;
+            text-align: left;
+            padding-left: 70px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin-bottom: 10px;
+            text-align: left;
+            padding-left: 100px;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .sql-code {
+            display: none;
+            background-color: #f4f4f4;
+            padding: 10px;
+            border: 1px solid #ccc;
+            margin-top: 20px;
+        }
+    </style>
+   
+</head>
+<body>
+    <header>
+        <h3>{{ title }}</h3>
+    </header>
+    <main>
+        <ul>
+            {% for site in result %}
+                <li><a href="/sites/{{ site.site_number }}">{{ site.site_number }}</a> - {{ site.name_en }}</li>
+            {% endfor %}
+        </ul>
+        <!-- quero que tenha uma opção "show the sql code" emvaixo ao clicar sobre-->
+        <a onclick="document.getElementById('sql-code').style.display = document.getElementById('sql-code').style.display === 'none' ? 'block' : 'none'" style="text-decoration: underline; cursor: pointer;">Show the SQL code</a>
+        <div id="sql-code" class="sql-code">
+            <pre>{{ sql_code }}</pre>
+        </div>
+    </main>
+</body>
+</html>
+{% endblock %}

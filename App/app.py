@@ -221,6 +221,25 @@ def sites_not_in_danger():
 
     return render_template('sites-not-in-danger.html', sites=sites)
 
+@APP.route('/site/queries/<int:n_pergunta>')
+def site_queries(n_pergunta):
+    if n_pergunta == 1:
+        sql_code = '''
+            SELECT whs.id_no as site_number, whs.name_en
+            FROM associated_dates ad
+            JOIN world_heritage_site whs ON ad.site_number = whs.id_no
+            WHERE ad.date_end IS NOT Null
+            ORDER BY whs.name_en
+            '''
+        result = db.execute(sql_code).fetchall()
+        title = "Que locais deixaram de ser património? Ordenada-os pelo nome"
+    
+    else:
+        abort(404, 'Query number {} does not exist.'.format(n_pergunta))
+
+    return render_template('site-queries.html', title=title, result=result, sql_code=sql_code)
+
+
 # Run the app
 if __name__ == '__main__':
     APP.run(debug=True)

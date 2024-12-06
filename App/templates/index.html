@@ -45,7 +45,7 @@ database. The application is built using
 
 <h2>Sample functionality</h2>
 
-<h3>Sites</h3>
+<h4>Sites</h4>
 <p>
    <a href="/sites/">List all</a>
 </p>
@@ -55,7 +55,7 @@ database. The application is built using
 </form>
 </p>
 
-<h3>Transboundary</h3>
+<h4>Transboundary</h4>
 <p>
    <a href="/transboundary/">List all</a>
 </p>
@@ -65,14 +65,14 @@ database. The application is built using
 </form>
 </p>
 
-<h3>Year of inscription</h3>
+<h4>Year of inscription</h4>
 <p>
 <form name="year_search" action="javascript:window.open('/site/'+document.forms['year_search'].elements['year'].value,'_self')">
    Year:<input value="1990" name="year" type="number" min="1"/><input type="submit" value="search"/>
 </form>
 </p>
 
-<h3>Search sites by category</h3>
+<h4>Search sites by category</h4>
 <p>
 <form name="category_search" action="javascript:window.open('/site/category/'+document.forms['category_search'].elements['category'].value,'_self')">
    Category:
@@ -85,7 +85,7 @@ database. The application is built using
 </form>
 </p>
 
-<h3>Search sites by danger status</h3>
+<h4>Search sites by danger status</h4>
 <p>
 <form name="danger_search" action="javascript:window.open('/sites/'+document.forms['danger_search'].elements['danger'].value,'_self')">
    Danger status:
@@ -96,5 +96,13 @@ database. The application is built using
    <input type="submit" value="search"/>
 </form>
 </p>
+
+<!-- para fazer as queries é assim -->
+<h4>Queries</h4>
+<p>
+  1. Que locais deixaram de ser património? Ordenada-os pelo nome
+  <a href="/site/queries/1">Answer</a>
+</p>
+
 
 {% endblock %}
