@@ -1,39 +1,32 @@
-
 <!-- This template displays a list of transboundary sites. -->
 
 {% extends 'base.html' %}
 {% block content %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Transboundary Sites</title>
-</head>
-<body>
-    <h1>Transboundary Sites</h1>
-    <table border="1">
-        <thead>
-            <tr>
-                <th style="text-align: center;">ID</th>
-                <th>Name</th>
-                <th>States</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for site in sites %}
+    <header>
+        <h1>Transboundary Sites</h1>
+    </header>
+    <main>
+        <table>
+            <thead>
                 <tr>
-                    <td style="text-align: center;"><a href="/sites/{{ site.id_no }}">{{ site.id_no }}</a></td>
-                    <td>{{ site.name_en }}</td>
-                    <td>
-                        {% for state in site.states_name_en.split(',') %}
-                            <a href="/country/{{ state.strip() }}">{{ state.strip() }}</a>{% if not loop.last %}, {% endif %}
-                        {% endfor %}
-                    </td>
+                    <th style="text-align: center;">ID</th>
+                    <th>Name</th>
+                    <th>States</th>
                 </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</body>
-</html>
-
+            </thead>
+            <tbody>
+                {% for site in sites %}
+                    <tr>
+                        <td style="text-align: center;"><a href="/sites/{{ site.id_no }}">{{ site.id_no }}</a></td>
+                        <td>{{ site.name_en }}</td>
+                        <td>
+                            {% for state in site.states_name_en.split(',') %}
+                                <a href="/country/{{ state.strip() }}">{{ state.strip() }}</a>{% if not loop.last %}, {% endif %}
+                            {% endfor %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </main>
 {% endblock %}

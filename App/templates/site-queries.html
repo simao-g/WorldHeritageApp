@@ -1,55 +1,7 @@
-
 <!-- This template displays the information required to answer the selected query -->
 
 {% extends 'base.html' %}
 {% block content %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ title }}</title>
-    <style>
-        body {
-            display: flex;
-            flex-direction: column;
-            align-items: left;
-        }
-        header {
-            margin-bottom: 10px;
-            text-align: left;
-            padding-left: 100px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            border: 1px solid #ccc;
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: #f4f4f4;
-        }
-        a {
-            color: #007BFF;
-            text-decoration: none;
-            cursor: pointer;
-        }
-        a:hover {
-            text-decoration: underline;
-        }
-        .sql-code {
-            display: none;
-            background-color: #f4f4f4;
-            padding: 10px;
-            border: 1px solid #ccc;
-            margin-top: 20px;
-        }
-    </style>
-</head>
-<body>
     <header>
         <h3>{{ title }}</h3>
     </header>
@@ -75,6 +27,4 @@
             <pre>{{ sql_code }}</pre>
         </div>
     </main>
-</body>
-</html>
 {% endblock %}

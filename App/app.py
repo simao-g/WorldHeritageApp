@@ -264,11 +264,12 @@ def site_queries(n_pergunta):
             '''
         result = db.execute(sql_code).fetchall()
         title = "Que locais deixaram de ser património? Ordenada-os pelo nome"
+        return render_template('site-queries.html', title=title, result=result, sql_code=sql_code)
     
     else:
         abort(404, 'Query number {} does not exist.'.format(n_pergunta))
 
-    return render_template('site-queries.html', title=title, result=result, sql_code=sql_code)
+
 
 
 #

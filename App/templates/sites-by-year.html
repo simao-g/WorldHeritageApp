@@ -1,37 +1,7 @@
-
 <!-- This template displays a list of World Heritage sites inscribed in a specific year. -->
 
 {% extends 'base.html' %}
 {% block content %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sites inscribed in {{ year }}</title>
-    <style>
-        body {
-            display: flex;
-            flex-direction: column;
-            align-items: left;
-        }
-        header {
-            margin-bottom: 20px;
-            text-align: left;
-            padding-left: 70px;
-        }
-        ul {
-            list-style-type: none;
-            padding: 0;
-        }
-        li {
-            margin-bottom: 10px;
-            text-align: left;
-            padding-left: 100px;
-        }
-    </style>
-</head>
-<body>
     <header>
         <h1>Sites inscribed in {{ year }}</h1>
     </header>
@@ -42,6 +12,4 @@
             {% endfor %}
         </ul>
     </main>
-    {% endblock %}
-</body>
-</html>
+{% endblock %}
