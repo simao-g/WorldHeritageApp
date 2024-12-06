@@ -221,7 +221,7 @@ def sites_not_in_danger():
 
     return render_template('sites-not-in-danger.html', sites=sites)
 
-@APP.route('/sites/queries/<int:n_pergunta>')
+@APP.route('/queries/<int:n_pergunta>')
 def site_queries(n_pergunta):
     if n_pergunta == 1:
         sql_code = '''
