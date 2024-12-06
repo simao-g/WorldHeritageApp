@@ -32,7 +32,7 @@
         <p><b>Latitude: </b>{{ site.latitude }}</p>
         <p><b>Longitude: </b>{{ site.longitude }}</p>
         <p><b>Area (ha): </b>{{ site.area_hectares }}</p>
-        <p><b>Year of inscription: </b><a href="/sites/{{ site.date_inscribed }}">{{ site.date_inscribed }}</a></p>
+        <p><b>Year of inscription: </b><a href="/sites/search/{{ site.date_inscribed }}">{{ site.date_inscribed }}</a></p>
         <p><b>Is it in danger? </b>
             {% if site.danger == 1 %}
                 Yes

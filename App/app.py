@@ -105,7 +105,7 @@ def search_sites(country):
 
     return render_template('sites-list.html', sites=sites)
 
-@APP.route('/sites/<int:year>')
+@APP.route('/sites/search/<int:year>')
 def sites_by_year(year):
     sites = db.execute(
         '''
