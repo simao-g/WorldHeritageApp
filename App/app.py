@@ -256,7 +256,49 @@ def sites_not_in_danger():
 def site_queries(n_pergunta):
     if n_pergunta == 1:
         sql_code = '''
-            SELECT whs.id_no as site_number, whs.name_en
+            SELECT states_name_en AS states_name, COUNT(*) AS count
+            FROM Place
+            NATURAL JOIN Location
+            GROUP BY states_name_en
+            HAVING transboundary=0
+            ORDER BY count DESC
+            LIMIT 5;
+            '''
+        result = db.execute(sql_code).fetchall()
+        title = "The 5 countries with the biggest amount of non-transboundary sites"
+        return render_template('queries-state-count.html', title=title, result=result, sql_code=sql_code)
+    
+    if n_pergunta == 2:
+        sql_code = '''
+            SELECT id_no as site_number, name_en as site_name, l.latitude as info_1, l.longitude as info_2
+            FROM location l
+            JOIN world_heritage_site whs ON l.site_number = whs.id_no
+            WHERE l.latitude < 0 AND longitude < 0
+            ORDER BY l.latitude DESC;
+
+            '''
+        result = db.execute(sql_code).fetchall()
+        title = "The names, latitude and longitude of the sites below the equator (latitude<0) and left to the Greenwich meridian (longitude<0)? Order them from North to South."
+        info_1 = "Latitude"
+        info_2 = "Longitude"
+        return render_template('queries-site-id-name-info1-info2.html', title=title, result=result, info_1=info_1, info_2=info_2, sql_code=sql_code)
+
+    if n_pergunta == 8:
+        sql_code = '''
+            SELECT id_no as site_number, name_en as site_name, region_en as info_1, states_name_en as info_2
+            FROM World_Heritage_Site
+            JOIN Place ON World_Heritage_Site.id_no = Place.site_number
+            WHERE states_name_en LIKE '%France%';
+            '''
+        result = db.execute(sql_code).fetchall()
+        title = "What are the names, region and countries (transboundary sites) of the sites in France?"
+        info_1 = "Region"
+        info_2 = "State"
+        return render_template('queries-site-id-name-info1-info2.html', title=title, result=result, info_1=info_1, info_2=info_2, sql_code=sql_code)
+    
+    if n_pergunta == 30:
+        sql_code = '''
+            SELECT whs.id_no as site_number, whs.name_en as site_name
             FROM associated_dates ad
             JOIN world_heritage_site whs ON ad.site_number = whs.id_no
             WHERE ad.date_end IS NOT Null
@@ -264,7 +306,7 @@ def site_queries(n_pergunta):
             '''
         result = db.execute(sql_code).fetchall()
         title = "Que locais deixaram de ser património? Ordenada-os pelo nome"
-        return render_template('site-queries.html', title=title, result=result, sql_code=sql_code)
+        return render_template('queries-site-id-name.html', title=title, result=result, sql_code=sql_code)
     
     else:
         abort(404, 'Query number {} does not exist.'.format(n_pergunta))

@@ -1,0 +1,32 @@
+<!-- This template displays the information required to answer the selected query -->
+
+{% extends 'base.html' %}
+{% block content %}
+    <header>
+        <h3>{{ title }}</h3>
+    </header>
+    <main>
+        <table>
+            <thead>
+                <tr>
+                  
+                    <th>Name</th>
+                    <th>Count</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for state in result %}
+                    <tr>
+                        
+                        <td>{{ state.states_name }}</td>
+                        <td>{{ state.count }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <a onclick="document.getElementById('sql-code').style.display = document.getElementById('sql-code').style.display === 'none' ? 'block' : 'none'" style="text-decoration: underline; cursor: pointer;">Show the SQL code</a>
+        <div id="sql-code" class="sql-code">
+            <pre>{{ sql_code }}</pre>
+        </div>
+    </main>
+{% endblock %}

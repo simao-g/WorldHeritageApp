@@ -1,0 +1,34 @@
+<!-- This template displays the information required to answer the selected query -->
+
+{% extends 'base.html' %}
+{% block content %}
+    <header>
+        <h3>{{ title }}</h3>
+    </header>
+    <main>
+        <table>
+            <thead>
+                <tr>
+                    <th style="text-align: center;">ID</th>
+                    <th>Name</th>
+                    <th>{{ info_1 }}</th>
+                    <th>{{ info_2 }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for site in result %}
+                    <tr>
+                        <td style="text-align: center;"><a href="/site/{{ site.site_number }}">{{ site.site_number }}</a></td>
+                        <td>{{ site.site_name }}</td>
+                        <td>{{ site.info_1 }}</td>
+                        <td>{{ site.info_2 }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <a onclick="document.getElementById('sql-code').style.display = document.getElementById('sql-code').style.display === 'none' ? 'block' : 'none'" style="text-decoration: underline; cursor: pointer;">Show the SQL code</a>
+        <div id="sql-code" class="sql-code">
+            <pre>{{ sql_code }}</pre>
+        </div>
+    </main>
+{% endblock %}
