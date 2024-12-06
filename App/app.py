@@ -271,6 +271,13 @@ def site_queries(n_pergunta):
     return render_template('site-queries.html', title=title, result=result, sql_code=sql_code)
 
 
+#
+@APP.route('/authors/')
+#Route handler for the authors page.
+def authors():
+    return render_template('authors.html')
+
+
 # Run the app
 if __name__ == '__main__':
     APP.run(debug=True)
