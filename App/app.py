@@ -265,10 +265,10 @@ def site_queries(n_pergunta):
             LIMIT 5;
             '''
         result = db.execute(sql_code).fetchall()
-        title = "The 5 countries with the biggest amount of non-transboundary sites"
+        title = "The 5 countries with the biggest amount of non-transboundary sites. Show the country name and the amount of sites, and order them (DESC) by  total."
         return render_template('queries-state-count.html', title=title, result=result, sql_code=sql_code)
     
-    if n_pergunta == 2:
+    elif n_pergunta == 2:
         sql_code = '''
             SELECT id_no as site_number, name_en as site_name, l.latitude as info_1, l.longitude as info_2
             FROM location l
@@ -282,21 +282,110 @@ def site_queries(n_pergunta):
         info_1 = "Latitude"
         info_2 = "Longitude"
         return render_template('queries-site-id-name-info1-info2.html', title=title, result=result, info_1=info_1, info_2=info_2, sql_code=sql_code)
+    elif n_pergunta == 3:
+        sql_code = '''
+            SELECT whs.id_no as site_number, whs.name_en as site_name
+            FROM site_criteria st
+            JOIN world_heritage_site whs ON whs.id_no = st.site_number
+            WHERE criterion_code LIKE (
+                SELECT cd.criterion_code
+                FROM criterion_descriptions cd
+                WHERE cd.cd_description LIKE "%To represent a masterpiece of human creative genius%")
+            ORDER BY whs.name_en;
+            '''
+        result = db.execute(sql_code).fetchall()
+        title = "Which sites, show the ID and the name, does Unesco consider representative of “a masterpiece of human creative genius”? Order them by name."
+        return render_template('queries-site-id-name.html', title=title, result=result, sql_code=sql_code)
+    
+    elif n_pergunta == 4:
+        sql_code = '''
+            SELECT whs.id_no as site_number, whs.name_en as site_name
+            FROM associated_dates ad 
+            JOIN world_heritage_site whs ON ad.site_number = whs.id_no
+            WHERE ad.date_inscribed = 2005
+            ORDER BY site_name;
+            '''
+        result = db.execute(sql_code).fetchall()
+        title = "Which sites became a part of the list in the year we were born(2005)? Order them by name."
+        return render_template('queries-site-id-name.html', title=title, result=result, sql_code=sql_code)
+    
+    elif n_pergunta == 5:
+        sql_code = '''
+            SELECT id_no as site_number, name_en AS site_name, short_description_en AS Description
+            FROM state_of_danger sd
+            JOIN world_heritage_site whs ON sd.site_number = whs.id_no
+            WHERE sd.date_end = 2024
+            ORDER BY site_name;
+            '''
+        result = db.execute(sql_code).fetchall()
+        title = "Has any site stopped being endangered this year (2024)? Show their ID's, names and descriptions, and order by name." 
+        info_1 = "Description"
+        return render_template('queries-site-id-name-info1.html', title=title, result=result, sql_code=sql_code)
 
-    if n_pergunta == 8:
+    elif n_pergunta == 6:
+        sql_code = '''
+            WITH numb_criteria AS (SELECT site_number, count(site_number) AS cont_criteria
+            FROM site_criteria sc
+            GROUP BY sc.site_number
+            ORDER BY sc.site_number)
+
+            SELECT whs.id_no as site_number, whs.name_en AS site_name, cont_criteria as info_1
+            FROM numb_criteria nc
+            JOIN world_heritage_site whs ON nc.site_number = whs.id_no
+            WHERE cont_criteria = (
+                SELECT max(cont_criteria)
+                FROM numb_criteria nc
+                )
+            ORDER BY site_name;
+            '''
+        result = db.execute(sql_code).fetchall()
+        title = "Which site(s), ID and name, combine the biggest amount of criteria to be considered World Heritage and what is that amount as 'Number of criteria'? Order them by name."
+        info_1 = "Number of criteria"
+        return render_template('queries-site-id-name-info1.html', title=title, result=result, sql_code=sql_code, info_1=info_1)
+    
+    elif n_pergunta == 7:
+        sql_code = '''
+            SELECT cd.category as category, count(c.site_number) as count
+            FROM category c
+            JOIN category_description cd on c.category_short = cd.Category_short
+            GROUP BY c.category_short;
+
+            '''
+        result = db.execute(sql_code).fetchall()
+        title = "How many sites are there from each category? Show the category name and the amount of sites."
+        info_1 = "Category"
+        info_2 = "Amount of sites"
+        return render_template('queries-category-info1-info2.html', title=title, result=result, sql_code=sql_code)
+
+    
+    elif n_pergunta == 8:
         sql_code = '''
             SELECT id_no as site_number, name_en as site_name, region_en as info_1, states_name_en as info_2
             FROM World_Heritage_Site
             JOIN Place ON World_Heritage_Site.id_no = Place.site_number
-            WHERE states_name_en LIKE '%France%';
+            WHERE states_name_en LIKE '%France%'
+            ORDER BY site_name;
             '''
         result = db.execute(sql_code).fetchall()
-        title = "What are the names, region and countries (transboundary sites) of the sites in France?"
+        title = "What are the names, region and countries (transboundary sites) of the sites in France? Order them by name."
         info_1 = "Region"
         info_2 = "State"
         return render_template('queries-site-id-name-info1-info2.html', title=title, result=result, info_1=info_1, info_2=info_2, sql_code=sql_code)
     
-    if n_pergunta == 30:
+    elif n_pergunta == 9:
+        sql_code = '''
+            SELECT whs.id_no as site_number, whs.name_en as site_name, p.states_name_en as info_1
+            FROM World_Heritage_Site whs
+            JOIN Place p ON whs.id_no = p.site_number
+            WHERE p.states_name_en LIKE 'B%' OR p.states_name_en LIKE '%,B%' 
+            ORDER BY whs.id_no;
+            '''
+        result = db.execute(sql_code).fetchall()
+        title = "The sites associated with countries that start with the letter B and the name of their country/countries. Order them by ID."
+        info_1 = "Country"
+        return render_template('queries-site-id-name-info1.html', title=title, result=result, sql_code=sql_code, info_1=info_1)
+    
+    elif n_pergunta == 30:
         sql_code = '''
             SELECT whs.id_no as site_number, whs.name_en as site_name
             FROM associated_dates ad
