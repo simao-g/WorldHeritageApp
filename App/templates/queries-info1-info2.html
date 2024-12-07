@@ -9,17 +9,16 @@
         <table>
             <thead>
                 <tr>
-                  
-                    <th>Name</th>
-                    <th>Count</th>
+                    <th>{{ info_1 }}</th>
+                    <th>{{ info_2 }}</th>
                 </tr>
             </thead>
             <tbody>
                 {% for state in result %}
                     <tr>
                         
-                        <td>{{ state.states_name }}</td>
-                        <td>{{ state.count }}</td>
+                        <td>{{ state.info_1 }}</td>
+                        <td>{{ state.info_2 }}</td>
                     </tr>
                 {% endfor %}
             </tbody>

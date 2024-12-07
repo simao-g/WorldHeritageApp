@@ -9,15 +9,15 @@
         <table>
             <thead>
                 <tr>
-                    <th style="text-align: center;">{{ info_1 }}</th>
+                    <th>{{ info_1 }}</th>
                     <th>{{ info_2 }}</th>
                 </tr>
             </thead>
             <tbody>
                 {% for site in result %}
                     <tr>
-                        <td><a href="/sites/category/{{ site.category }}">{{ site.category }}</a></td>
-                        <td>{{ site.count }}</td>
+                        <td><a href="/sites/category/{{ site.info_1 }}">{{ site.info_1 }}</a></td>
+                        <td>{{ site.info_2 }}</td>
                     </tr>
                 {% endfor %}
             </tbody>

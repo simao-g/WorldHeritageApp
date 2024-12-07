@@ -256,17 +256,19 @@ def sites_not_in_danger():
 def site_queries(n_pergunta):
     if n_pergunta == 1:
         sql_code = '''
-            SELECT states_name_en AS states_name, COUNT(*) AS count
+            SELECT states_name_en AS info_1, COUNT(*) AS info_2
             FROM Place
             NATURAL JOIN Location
             GROUP BY states_name_en
             HAVING transboundary=0
-            ORDER BY count DESC
+            ORDER BY info_2 DESC
             LIMIT 5;
             '''
         result = db.execute(sql_code).fetchall()
         title = "The 5 countries with the biggest amount of non-transboundary sites. Show the country name and the amount of sites, and order them (DESC) by  total."
-        return render_template('queries-state-count.html', title=title, result=result, sql_code=sql_code)
+        info_1 = "Country"
+        info_2 = "Site Count"
+        return render_template('queries-info1-info2.html', title=title, result=result, sql_code=sql_code, info_1=info_1, info_2=info_2)
     
     elif n_pergunta == 2:
         sql_code = '''
@@ -345,7 +347,7 @@ def site_queries(n_pergunta):
     
     elif n_pergunta == 7:
         sql_code = '''
-            SELECT cd.category as category, count(c.site_number) as count
+            SELECT cd.category as info_1, count(c.site_number) as info_2
             FROM category c
             JOIN category_description cd on c.category_short = cd.Category_short
             GROUP BY c.category_short;
@@ -355,7 +357,7 @@ def site_queries(n_pergunta):
         title = "How many sites are there from each category? Show the category name and the amount of sites."
         info_1 = "Category"
         info_2 = "Amount of sites"
-        return render_template('queries-category-info1-info2.html', title=title, result=result, sql_code=sql_code)
+        return render_template('queries-category-info1-info2.html', title=title, result=result, sql_code=sql_code, info_1=info_1, info_2=info_2)
 
     
     elif n_pergunta == 8:
@@ -381,21 +383,107 @@ def site_queries(n_pergunta):
             ORDER BY whs.id_no;
             '''
         result = db.execute(sql_code).fetchall()
-        title = "The sites associated with countries that start with the letter B and the name of their country/countries. Order them by ID."
+        title = "The sites associated with countries that start with the letter B and the name of their country/countries. Show their ID, name and the country or countries, and order them by ID."
         info_1 = "Country"
         return render_template('queries-site-id-name-info1.html', title=title, result=result, sql_code=sql_code, info_1=info_1)
     
-    elif n_pergunta == 30:
+    elif n_pergunta == 10:
         sql_code = '''
-            SELECT whs.id_no as site_number, whs.name_en as site_name
-            FROM associated_dates ad
-            JOIN world_heritage_site whs ON ad.site_number = whs.id_no
-            WHERE ad.date_end IS NOT Null
-            ORDER BY whs.name_en
+            SELECT category as info_1 , AVG(area_hectares) AS info_2
+            FROM Location
+            JOIN Category ON Location.site_number = Category.site_number
+            JOIN Category_Description ON Category.category_short = Category_Description.category_short
+            GROUP BY category;
             '''
         result = db.execute(sql_code).fetchall()
-        title = "Que locais deixaram de ser património? Ordenada-os pelo nome"
-        return render_template('queries-site-id-name.html', title=title, result=result, sql_code=sql_code)
+        title = "What is the average area of the sites of each category? Show the category name and the average area."
+        info_1 = "Category"
+        info_2 = "Average area"
+        return render_template('queries-category-info1-info2.html', title=title, result=result, sql_code=sql_code, info_1=info_1, info_2=info_2)
+    
+    elif n_pergunta == 11:
+        sql_code = '''
+            SELECT CASE WHEN latitude >= 0 THEN 'North' ELSE 'South' END AS info_1, COUNT(*) AS info_2
+            FROM Location
+            GROUP BY info_1;
+            '''
+        result = db.execute(sql_code).fetchall()
+        title = "What is the amount of sites in each hemisphere (North and South)?"
+        info_1 = "Hemisphere"
+        info_2 = "Site Count"
+        return render_template('queries-info1-info2.html', title=title, result=result, sql_code=sql_code, info_1=info_1, info_2=info_2)
+    
+    elif n_pergunta == 12:
+        sql_code = '''
+            SELECT whs.id_no as site_number, whs.name_en as site_name, l.area_hectares as info_1, p.region_en as info_2
+            FROM World_Heritage_Site whs
+            JOIN Location l ON whs.id_no = l.site_number
+            JOIN Place p ON whs.id_no = p.site_number
+            ORDER BY l.area_hectares DESC
+            LIMIT 10;
+            '''
+        result = db.execute(sql_code).fetchall()
+        title = "List the 10 biggest sites in area and their regions. Show their ID, name, area and region, and order them by area (DESC)."
+        info_1 = "Area (hectares)"
+        info_2 = "Region"
+        return render_template('queries-site-id-name-info1-info2.html', title=title, result=result, info_1=info_1, info_2=info_2, sql_code=sql_code)
+    
+    elif n_pergunta == 13:
+        sql_code = '''
+                SELECT id_no as site_number, name_en as site_name, latitude as info_1, longitude as info_2
+                FROM Location as l
+                JOIN World_Heritage_Site as whs ON l.site_number = whs.id_no
+                JOIN State_Of_Danger as d ON whs.id_no=d.site_number
+                WHERE danger=1 AND info_1 BETWEEN -23.5 AND 23.5
+                ORDER BY site_number;
+        '''
+
+        result = db.execute(sql_code).fetchall()
+        title = "List the sites in the torrid zone (between the tropics of cancer and capricorn) that are currently in danger. Show their ID, name, latitude, longitude, and order them by ID."
+        info_1 = "Latitude"
+        info_2 = "Longitude"
+        return render_template('queries-site-id-name-info1-info2.html', title=title, result=result, info_1=info_1, info_2=info_2, sql_code=sql_code)
+    
+    elif n_pergunta == 14:
+        sql_code = '''
+            SELECT id_no as site_number, whs.name_en as site_name, p.region_en as info_1
+            FROM World_Heritage_Site whs
+            JOIN Place p ON whs.id_no = p.site_number
+            WHERE info_1 = (
+                SELECT region_en
+                FROM Place
+                GROUP BY region_en
+                ORDER BY COUNT(*) DESC
+                LIMIT 1)
+            ORDER BY site_number;
+
+            '''
+        result = db.execute(sql_code).fetchall()
+        title = "Find the sites that belong to the region with the biggest amount of sites. Show their ID, name and region, and order by ID."
+        info_1 = "Region"
+        return render_template('queries-site-id-name-info1.html', title=title, result=result, sql_code=sql_code, info_1=info_1)
+    
+    elif n_pergunta == 15:
+        sql_code = '''
+            WITH first_years as (
+                SELECT DISTINCT date_inscribed
+                FROM Associated_Dates
+                ORDER BY date_inscribed
+                LIMIT 10)
+
+            SELECT whs.id_no as site_number, whs.name_en AS site_name, p.states_name_en as info_1, ad.date_inscribed as info_2
+            FROM associated_dates ad
+            JOIN world_heritage_site whs ON ad.site_number = whs.id_no
+            JOIN place p ON whs.id_no=p.site_number
+            WHERE ad.date_inscribed IN first_years
+            ORDER BY ad.date_inscribed;
+
+            '''
+        result = db.execute(sql_code).fetchall()
+        title = "What were the sites added during the first 10 years of the World Heritage sites list? Show their ID_no, name, the country or countries where it is located and the date of inscription, and order them by that date."
+        info_1 = "States name"
+        info_2 = "Date inscribed"
+        return render_template('queries-site-id-name-info1-info2.html', title=title, result=result, sql_code=sql_code, info_1=info_1, info_2=info_2)
     
     else:
         abort(404, 'Query number {} does not exist.'.format(n_pergunta))
