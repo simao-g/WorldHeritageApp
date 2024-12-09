@@ -265,7 +265,7 @@ def site_queries(n_pergunta):
             LIMIT 5;
             '''
         result = db.execute(sql_code).fetchall()
-        title = "The 5 countries with the biggest amount of non-transboundary sites. Show the country name and the amount of sites, and order them (DESC) by  total."
+        title = "Top 5 countries with the biggest amount of non-transboundary sites. Show the country name and the amount of sites, and order them (DESC) by amount."
         info_1 = "Country"
         info_2 = "Site Count"
         return render_template('queries-info1-info2.html', title=title, result=result, sql_code=sql_code, info_1=info_1, info_2=info_2)
@@ -280,7 +280,7 @@ def site_queries(n_pergunta):
 
             '''
         result = db.execute(sql_code).fetchall()
-        title = "The names, latitude and longitude of the sites below the equator (latitude<0) and left to the Greenwich meridian (longitude<0)? Order them from North to South."
+        title = "The names, latitude and longitude of the sites below the equator (latitude<0) and to the left  of Greenwich meridian (longitude<0)? Order them from North to South."
         info_1 = "Latitude"
         info_2 = "Longitude"
         return render_template('queries-site-id-name-info1-info2.html', title=title, result=result, info_1=info_1, info_2=info_2, sql_code=sql_code)

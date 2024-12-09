@@ -64,7 +64,7 @@ database. The application is built using
 </p>
 
 <p>Search sites by country:
-<form name="country_search" action="javascript:window.open('/country/'+document.forms['country_search'].elements['country'].value,'_self')">
+<form name="country_search_1" action="javascript:window.open('/country/'+document.forms['country_search_1'].elements['country'].value,'_self')">
    Country:<input value='Portugal', name="country" type="text"/><input type="submit" value="search"/>
 </form>
 </p>
@@ -74,7 +74,7 @@ database. The application is built using
    <a href="/transboundary/">List all</a>
 </p>
 <p>Search transboundary sites by country:
-<form name="country_search" action="javascript:window.open('/transboundary/search/'+document.forms['country_search'].elements['country'].value,'_self')">
+<form name="country_search_2" action="javascript:window.open('/transboundary/search/'+document.forms['country_search_2'].elements['country'].value,'_self')">
    Country:<input value='Portugal', name="country" type="text"/><input type="submit" value="search"/>
 </form>
 </p>
@@ -114,11 +114,11 @@ database. The application is built using
 <!-- para fazer as queries é assim -->
 <h4>Queries</h4>
 <p>
-  1. The 5 countries with the biggest amount of non-transboundary sites. Show the country name and the amount of sites, and order them (DESC) by  total.
+  1. Top 5 countries with the biggest amount of non-transboundary sites. Show the country name and the amount of sites, and order them (DESC) by amount.
   <a href="/queries/1">Answer</a>
 </p>
 <p>
-  2. The names, latitude and longitude of the sites below the equator (latitude &lt; 0) and left to the Greenwich meridian (longitude &lt; 0)? Order them from North to South.
+  2. The names, latitude and longitude of the sites below the equator (latitude &lt 0) and to the left  of Greenwich meridian (longitude &lt 0)? Order them from North to South.
   <a href="/queries/2">Answer</a>
 </p>
 <p>

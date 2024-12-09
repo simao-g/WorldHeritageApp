@@ -25,7 +25,7 @@ It displays a table with the ID, Name and Description of the sites.
       <a href="/sites/{{ site.id_no}}">{{ site.id_no }}</a>
     </td>
     <td>
-      {{ site.name_en }}
+      {{ site.name_en | safe  }}
     </td>
     <td>
       {{ site.short_description_en | safe }}

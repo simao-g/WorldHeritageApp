@@ -18,7 +18,7 @@
                 {% for site in sites %}
                     <tr>
                         <td style="text-align: center;"><a href="/sites/{{ site.id_no }}">{{ site.id_no }}</a></td>
-                        <td>{{ site.name_en }}</td>
+                        <td>{{ site.name_en | safe  }}</td>
                         <td>
                             {% for state in site.states_name_en.split(',') %}
                                 <a href="/country/{{ state.strip() }}">{{ state.strip() }}</a>{% if not loop.last %}, {% endif %}

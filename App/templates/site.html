@@ -3,11 +3,11 @@
 {% extends 'base.html' %}
 {% block content %}
     <header>
-        <h1>{{ site.name_en }}</h1>
+        <h1>{{ site.name_en | safe}}</h1>
     </header>
     <main>
         <p><b>id: </b>{{ site.id_no }}</p>
-        <p><b>Name: </b>{{ site.name_en }}</p>
+        <p><b>Name: </b>{{ site.name_en | safe  }}</p>
         <p><b>Countries: </b>
             {% for country in site.countries.split(',') %}
                 <a href="/country/{{ country.strip() }}">{{ country.strip() }}</a>{% if not loop.last %}, {% endif %}

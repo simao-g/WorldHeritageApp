@@ -19,7 +19,7 @@
                 {% for site in result %}
                     <tr>
                         <td style="text-align: center;"><a href="/sites/{{ site.site_number }}">{{ site.site_number }}</a></td>
-                        <td>{{ site.site_name }}</td>
+                        <td>{{ site.site_name | safe }}</td>
                         <td>{{ site.info_1 }}</td>
                         <td>{{ site.info_2 }}</td>
                     </tr>

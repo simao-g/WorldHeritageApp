@@ -13,7 +13,7 @@
         <ul>
             {% for site in sites %}
                 <li>
-                    <a href="/sites/{{ site.id_no }}">{{ site.id_no}}</a> - {{ site.name_en }}
+                    <a href="/sites/{{ site.id_no }}">{{ site.id_no}}</a> - {{ site.name_en | safe  }}
                 </li>
             {% endfor %}
         </ul>
